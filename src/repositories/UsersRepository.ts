@@ -8,7 +8,7 @@ class UsersRepository {
     this.users = usersDB;
   }
 
-  public create(username: string, email: string, password: string): User {
+  public create({ username, email, password }: Omit<User, 'id'>): User {
     const user = new User(username, email, password);
 
     this.users.push(user);

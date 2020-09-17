@@ -11,12 +11,4 @@ usersRouter.get('/all', (request, response) => {
   return response.json(users);
 });
 
-usersRouter.get('/user', (request, response) => {
-  const { token } = request.headers;
-
-  const users = usersRepository.findAll();
-
-  return response.json(users);
-});
-
 export default usersRouter;
