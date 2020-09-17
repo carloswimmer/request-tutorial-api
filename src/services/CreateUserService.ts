@@ -1,3 +1,5 @@
+import { hash } from 'bcryptjs';
+
 import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
 
@@ -11,7 +13,13 @@ class CreateUserService {
   public async execute({ username, email, password }: IRequest): Promise<User> {
     const usersRepository = new UsersRepository();
 
-    const user = usersRepository.create({ username, email, password });
+    const hashedPassword = await hash(password, 8);
+
+    const user = usersRepository.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
 
     return user;
   }

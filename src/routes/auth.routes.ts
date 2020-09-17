@@ -10,8 +10,6 @@ authRouter.post('/signup', async (request, response) => {
 
   const user = await createUser.execute({ username, email, password });
 
-  delete user.password;
-
   return response.json(user);
 });
 
