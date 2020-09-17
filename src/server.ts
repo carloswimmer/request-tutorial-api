@@ -1,11 +1,18 @@
 import express from 'express';
+import cors from 'cors';
+
+import routes from './routes';
 
 const app = express();
 
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello Hugo Pedro' });
-});
+const corsOptions = {
+  origin: 'http://localhost:8081',
+};
 
-app.listen(3333, () => {
-  console.log('🚀 Server started on port 3333!');
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(routes);
+
+app.listen(8080, () => {
+  console.log('🚀 Server started on port 8080!');
 });
