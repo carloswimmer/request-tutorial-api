@@ -1,7 +1,6 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
 
 interface IRequest {
@@ -32,7 +31,7 @@ class CreateUserService {
     }
 
     const accessToken = sign(
-      { username: user.username, email: user.email },
+      { username: user.username, id: user.id },
       '0c4e8d33ba9137b92003e27211a91ab9',
       {
         subject: user.id,
