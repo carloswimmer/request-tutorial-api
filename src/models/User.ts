@@ -4,9 +4,9 @@ class User {
   id: string;
   username: string;
   email: string;
-  password?: string;
+  password: string;
 
-  constructor(username: string, email: string, password?: string) {
+  constructor(username: string, email: string, password: string) {
     this.id = uuid();
     this.username = username;
     this.email = email;

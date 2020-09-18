@@ -8,6 +8,12 @@ class UsersRepository {
     this.users = usersDB;
   }
 
+  public findByUsername(username: string): User | undefined {
+    const user = this.users.find(user => user.username === username);
+
+    return user;
+  }
+
   public create({ username, email, password }: Omit<User, 'id'>): User {
     const user = new User(username, email, password);
 
