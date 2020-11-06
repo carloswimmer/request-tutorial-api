@@ -1,4 +1,5 @@
-import { verify } from 'jsonwebtoken';
+import { TokenExpiredError, verify } from 'jsonwebtoken';
+import AppError from '../error/AppError';
 
 interface IRequest {
   authorization: string | undefined;
@@ -12,7 +13,10 @@ interface IResponse {
 class DecodeTokenService {
   public async execute({ authorization }: IRequest): Promise<IResponse> {
     if (!authorization) {
-      throw new Error('You are not allowed to access this content');
+      throw new AppError(
+        'Você não tem autorização para acessar esse conteúdo',
+        403,
+      );
     }
 
     const token = authorization.replace('Bearer ', '');
@@ -22,7 +26,14 @@ class DecodeTokenService {
     try {
       payload = verify(token, '0c4e8d33ba9137b92003e27211a91ab9');
     } catch (error) {
-      throw new Error('You are not allowed to access this content');
+      if (error instanceof TokenExpiredError) {
+        throw new AppError('Sua conexão expirou, faça login novamente', 401);
+      }
+
+      throw new AppError(
+        'Você não tem autorização para acessar esse conteúdo',
+        401,
+      );
     }
 
     const { id, username } = payload as any;

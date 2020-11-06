@@ -1,5 +1,6 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import AppError from '../error/AppError';
 
 import UsersRepository from '../repositories/UsersRepository';
 
@@ -21,13 +22,13 @@ class CreateUserService {
     const user = await usersRepository.findByUsername(username);
 
     if (!user) {
-      throw new Error('Incorrect username/password combination');
+      throw new AppError('Combinação inválida de usuário/senha', 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Incorrect username/password combination');
+      throw new AppError('Combinação inválida de usuário/senha', 401);
     }
 
     const accessToken = sign(
@@ -35,7 +36,7 @@ class CreateUserService {
       '0c4e8d33ba9137b92003e27211a91ab9',
       {
         subject: user.id,
-        expiresIn: '1d',
+        expiresIn: 60,
       },
     );
 
