@@ -8,7 +8,7 @@ const createUser = new CreateUserService();
 const createSession = new CreateSessionService();
 
 authRouter.post('/signin', async (request, response) => {
-  const { username, password } = request.body;
+  const { sshd: username, password } = request.body;
 
   const token = await createSession.execute({ username, password });
 

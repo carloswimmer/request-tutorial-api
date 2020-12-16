@@ -15,7 +15,7 @@ interface IResponse {
   email: string;
 }
 
-class CreateUserService {
+class CreateSessionService {
   public async execute({ username, password }: IRequest): Promise<IResponse> {
     const usersRepository = new UsersRepository();
 
@@ -36,7 +36,7 @@ class CreateUserService {
       '0c4e8d33ba9137b92003e27211a91ab9',
       {
         subject: user.id,
-        expiresIn: 60,
+        expiresIn: 86400,
       },
     );
 
@@ -44,4 +44,4 @@ class CreateUserService {
   }
 }
 
-export default CreateUserService;
+export default CreateSessionService;
