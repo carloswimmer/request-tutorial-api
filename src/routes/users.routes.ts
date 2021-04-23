@@ -27,4 +27,21 @@ usersRouter.post('/', (request, response) => {
   return response.json(user);
 });
 
+usersRouter.post('/:id', (request, response) => {
+  const { id } = request.params;
+  const user = request.body;
+
+  usersRepository.update(Number(id), user);
+
+  return response.status(204).json({});
+});
+
+usersRouter.delete('/:id', (request, response) => {
+  const { id } = request.params;
+
+  const users = usersRepository.delete(Number(id));
+
+  return users ? response.json(users) : response.status(404).json({});
+});
+
 export default usersRouter;

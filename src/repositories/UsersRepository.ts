@@ -26,6 +26,22 @@ class UsersRepository {
 
     return user;
   }
+
+  public update(id: number, user: User): void {
+    const userIndex = this.users.findIndex(user => user.id === id);
+
+    Object.assign(this.users[userIndex], user);
+  }
+
+  public delete(id: number): User[] | undefined {
+    const userIndex = this.users.findIndex(user => user.id === id);
+
+    if (userIndex === -1) return undefined;
+
+    this.users.splice(userIndex, 1);
+
+    return this.users;
+  }
 }
 
 export default UsersRepository;
