@@ -27,7 +27,7 @@ usersRouter.post('/', (request, response) => {
   return response.json(user);
 });
 
-usersRouter.post('/:id', (request, response) => {
+usersRouter.put('/:id', (request, response) => {
   const { id } = request.params;
   const user = request.body;
 
