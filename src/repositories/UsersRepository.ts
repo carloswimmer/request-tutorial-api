@@ -23,6 +23,7 @@ class UsersRepository {
     const user = new User(name, username, email, phone, website);
 
     this.users.push(user);
+    console.log('users-create', this.users);
 
     return user;
   }
@@ -31,6 +32,7 @@ class UsersRepository {
     const userIndex = this.users.findIndex(user => user.id === id);
 
     Object.assign(this.users[userIndex], user);
+    console.log('users-update', this.users);
   }
 
   public delete(id: number): User[] | undefined {
@@ -39,6 +41,7 @@ class UsersRepository {
     if (userIndex === -1) return undefined;
 
     this.users.splice(userIndex, 1);
+    console.log('users-delete', this.users);
 
     return this.users;
   }
