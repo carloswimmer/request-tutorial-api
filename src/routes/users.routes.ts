@@ -1,26 +1,30 @@
 import { Router } from 'express';
 
 import UsersRepository from '../repositories/UsersRepository';
-import DecodeTokenService from '../services/DecodeTokenService';
 
 const usersRouter = Router();
 const usersRepository = new UsersRepository();
-const decodeToken = new DecodeTokenService();
 
-usersRouter.get('/user', async (request, response) => {
-  const { authorization } = request.headers;
+usersRouter.get('/', (request, response) => {
+  const users = usersRepository.findAll();
 
-  const { id } = await decodeToken.execute({ authorization });
+  return response.json(users);
+});
 
-  const user = usersRepository.findById(id);
+usersRouter.get('/:id', (request, response) => {
+  const { id } = request.params;
+
+  const user = usersRepository.findById(Number(id));
 
   return response.json(user);
 });
 
-usersRouter.get('/all', (request, response) => {
-  const users = usersRepository.findAll();
+usersRouter.post('/', (request, response) => {
+  const userRequest = request.body;
 
-  return response.json(users);
+  const user = usersRepository.create(userRequest);
+
+  return response.json(user);
 });
 
 export default usersRouter;

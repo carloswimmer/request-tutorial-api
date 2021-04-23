@@ -1,16 +1,37 @@
-import { uuid } from 'uuidv4';
-
 class User {
-  id: string;
+  id: number;
+  name: string;
   username: string;
   email: string;
-  password: string;
+  phone: string;
+  website: string;
+  address?: object;
+  company?: object;
+  static lastId: number;
 
-  constructor(username: string, email: string, password: string) {
-    this.id = uuid();
+  constructor(
+    name: string,
+    username: string,
+    email: string,
+    phone: string,
+    website: string,
+    address?: object,
+    company?: object,
+  ) {
+    this.id = User.incrementId();
+    this.name = name;
     this.username = username;
     this.email = email;
-    this.password = password;
+    this.address = address;
+    this.phone = phone;
+    this.website = website;
+    this.company = company;
+  }
+
+  static incrementId(): number {
+    if (!this.lastId) this.lastId = 10;
+    else this.lastId++;
+    return this.lastId;
   }
 }
 

@@ -8,28 +8,23 @@ class UsersRepository {
     this.users = usersDB;
   }
 
-  public findById(id: string): User | undefined {
+  public findAll(): User[] {
+    return this.users;
+  }
+
+  public findById(id: number): User | undefined {
     const user = this.users.find(user => user.id === id);
 
     return user;
   }
 
-  public findByUsername(username: string): User | undefined {
-    const user = this.users.find(user => user.username === username);
-
-    return user;
-  }
-
-  public create({ username, email, password }: Omit<User, 'id'>): User {
-    const user = new User(username, email, password);
+  public create(userRequest: Omit<User, 'id'>): User {
+    const { name, username, email, phone, website } = userRequest;
+    const user = new User(name, username, email, phone, website);
 
     this.users.push(user);
 
     return user;
-  }
-
-  public findAll(): User[] {
-    return this.users;
   }
 }
 
