@@ -1,26 +1,51 @@
 import { Router } from 'express';
 
-import CreateUserService from '../services/CreateUserService';
-import CreateSessionService from '../services/CreateSessionService';
+import PostsRepository from '../repositories/PostsRepository';
 
-const authRouter = Router();
-const createUser = new CreateUserService();
-const createSession = new CreateSessionService();
+const postsRouter = Router();
+const postsRepository = new PostsRepository();
 
-authRouter.post('/signin', async (request, response) => {
-  const { sshd: username, password } = request.body;
+postsRouter.get('/', (request, response) => {
+  const { userId } = request.query;
 
-  const token = await createSession.execute({ username, password });
+  const posts = userId
+    ? postsRepository.getByUserId(Number(userId))
+    : postsRepository.findAll();
 
-  return response.json(token);
+  return response.json(posts);
 });
 
-authRouter.post('/signup', async (request, response) => {
-  const { username, email, password } = request.body;
+postsRouter.get('/:id', (request, response) => {
+  const { id } = request.params;
 
-  const user = await createUser.execute({ username, email, password });
+  const post = postsRepository.findById(Number(id));
 
-  return response.json(user);
+  return response.json(post);
 });
 
-export default authRouter;
+postsRouter.post('/', (request, response) => {
+  const postRequest = request.body;
+
+  const post = postsRepository.create(postRequest);
+
+  return response.json(post);
+});
+
+postsRouter.post('/:id', (request, response) => {
+  const { id } = request.params;
+  const post = request.body;
+
+  postsRepository.update(Number(id), post);
+
+  return response.status(204).json({});
+});
+
+postsRouter.delete('/:id', (request, response) => {
+  const { id } = request.params;
+
+  const posts = postsRepository.delete(Number(id));
+
+  return posts ? response.json(posts) : response.status(404).json({});
+});
+
+export default postsRouter;
