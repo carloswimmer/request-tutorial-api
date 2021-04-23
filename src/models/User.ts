@@ -29,7 +29,7 @@ class User {
   }
 
   static incrementId(): number {
-    if (!this.lastId) this.lastId = 10;
+    if (!this.lastId) this.lastId = 11;
     else this.lastId++;
     return this.lastId;
   }
