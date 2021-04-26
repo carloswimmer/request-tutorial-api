@@ -9,7 +9,7 @@ postsRouter.get('/', (request, response) => {
   const { userId } = request.query;
 
   const posts = userId
-    ? postsRepository.getByUserId(Number(userId))
+    ? postsRepository.findByUserId(Number(userId))
     : postsRepository.findAll();
 
   return response.json(posts);

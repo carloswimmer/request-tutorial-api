@@ -18,7 +18,7 @@ class PostsRepository {
     return post;
   }
 
-  public getByUserId(userId: number): Post[] {
+  public findByUserId(userId: number): Post[] {
     const filteredPosts = this.posts.filter(post => post.userId === userId);
 
     return filteredPosts;
